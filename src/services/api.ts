@@ -12,3 +12,15 @@ export const fetchProducts = async() => {
         return [];
     }
 }
+
+export const fetchProductCategories = async() => {
+   try{
+    const response = await fetch('https://dummyjson.com/products/categories');
+    const data = response.json();
+    console.log(data);
+    return data;
+   }
+   catch(err) {
+    console.error('Error occured: ', err);
+   }
+}

@@ -1,6 +1,15 @@
-import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Button,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React from 'react';
 import { Fontisto } from '@react-native-vector-icons/fontisto';
+
+const { width } = Dimensions.get('window');
 
 const TopTab = () => {
   return (
@@ -22,8 +31,8 @@ export default TopTab;
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: 50,
+    width: width,
+    height: 60,
     position: 'absolute',
     backgroundColor: 'white',
     color: '#000000',
@@ -31,6 +40,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 4,
     alignItems: 'center',
+    zIndex: 50,
   },
   heading: {
     fontSize: 30,

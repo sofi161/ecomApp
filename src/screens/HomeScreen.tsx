@@ -13,14 +13,16 @@ import BorderedSquare from '../components/BorderedSquare';
 import Fontisto from '@react-native-vector-icons/fontisto';
 import Carousel from '../components/Carousel';
 import ProductBox from '../components/ProductBox';
-import { fetchProducts } from '../services/api';
+import { fetchProductCategories, fetchProducts } from '../services/api';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { rootStackParamList } from '../App';
+import TopTab from '../components/TopTab';
 
 type HomeProps = NativeStackScreenProps<rootStackParamList, 'Home'>;
 
 const HomeScreen = ({ navigation }: HomeProps) => {
   const [products, setProducts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,7 +32,14 @@ const HomeScreen = ({ navigation }: HomeProps) => {
       setProducts(data);
       setLoading(false);
     };
+    const getCategories = async () => {
+      const data = await fetchProductCategories();
+      console.log(data);
+      setCategories(data);
+      setLoading(false);
+    };
     getproducts();
+    getCategories();
   }, []);
 
   if (loading) {
@@ -47,6 +56,7 @@ const HomeScreen = ({ navigation }: HomeProps) => {
   };
   return (
     <View style={styles.container}>
+      <TopTab />
       <View style={styles.searchContainer}>
         <Fontisto name="search" color="#828282" size={20} />
 
@@ -58,18 +68,37 @@ const HomeScreen = ({ navigation }: HomeProps) => {
         />
       </View>
       <Carousel />
-      <ScrollView horizontal={true} style={styles.categoryContainer}>
-        <BorderedSquare
-          text={'Tshirt'}
-          imageURL="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUh-WFHQ2hLMQCVyAaIsXFYx0ZPlfhEizI3A&s"
+      <View style={styles.categoryContainer}>
+        <Text
+          style={{
+            fontSize: 18,
+            marginBottom: 8,
+            fontWeight: 'bold',
+            marginLeft: 6,
+          }}
+        >
+          Categories
+        </Text>
+        <FlatList
+          data={categories}
+          horizontal
+          renderItem={({ item }) => (
+            <Pressable style={styles.categorySubContainer}>
+              <BorderedSquare text={item.name} />
+            </Pressable>
+          )}
         />
-      </ScrollView>
+      </View>
       <FlatList
         numColumns={2}
         data={products}
         keyExtractor={item => item.id.toString()}
         renderItem={({ item }) => (
-          <Pressable onPress={() => navigation.navigate('ProductDetails')}>
+          <Pressable
+            onPress={() =>
+              navigation.navigate('ProductDetails', { products: item })
+            }
+          >
             <ProductBox product={item} />
           </Pressable>
         )}
@@ -91,6 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
+    marginTop: 60,
     borderRadius: 14,
     paddingHorizontal: 14,
   },
@@ -102,8 +132,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   categoryContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 8,
+    flexDirection: 'column',
+    height: 120,
+  },
+  categorySubContainer: {
+    marginRight: 10,
   },
   productGrid: {
     padding: 4,

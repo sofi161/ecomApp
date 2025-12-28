@@ -2,15 +2,16 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import React, { PropsWithChildren } from 'react';
 
 type BorderedSquareProps = PropsWithChildren<{
-  imageURL: string;
   text: string;
 }>;
 
-const BorderedSquare = ({ imageURL, text }: BorderedSquareProps) => {
+const BorderedSquare = ({ text }: BorderedSquareProps) => {
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: imageURL }}
+        source={{
+          uri: 'https://static.vecteezy.com/system/resources/previews/026/632/927/non_2x/category-icon-symbol-design-illustration-vector.jpg',
+        }}
         style={styles.image}
         alt="product-image"
       />
