@@ -22,36 +22,44 @@ export type rootStackParamList = {
 
 const Stack = createNativeStackNavigator<rootStackParamList>();
 
-const AuthStack = () => {
+const AuthStack = ({ setIsUserLoggedIn }) => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Signup" component={SignupScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login">
+        {props => (
+          <LoginScreen {...props} setIsUserLoggedIn={setIsUserLoggedIn} />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name="Signup">
+        {props => (
+          <SignupScreen {...props} setIsUserLoggedIn={setIsUserLoggedIn} />
+        )}
+      </Stack.Screen>
+    </Stack.Navigator>
   );
 };
 
 const AppStack = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="TopTabs" component={TopTab} /> */}
-        <Stack.Screen name="BottomTabs" component={BottomTab} />
-        <Stack.Screen name="ProductDetails" component={ProductDetailScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {/* <Stack.Screen name="TopTabs" component={TopTab} /> */}
+      <Stack.Screen name="BottomTabs" component={BottomTab} />
+      <Stack.Screen name="ProductDetails" component={ProductDetailScreen} />
+    </Stack.Navigator>
   );
 };
 
 function App() {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  if (isUserLoggedIn) {
-    return <AppStack />;
-  } else {
-    return <AuthStack />;
-  }
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
+  return (
+    <NavigationContainer>
+      {isUserLoggedIn ? (
+        <AppStack />
+      ) : (
+        <AuthStack setIsUserLoggedIn={setIsUserLoggedIn} />
+      )}
+    </NavigationContainer>
+  );
 }
 
 const styles = StyleSheet.create({

@@ -8,7 +8,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { rootStackParamList } from '../App';
 import {
@@ -18,9 +18,11 @@ import {
 
 const { width } = Dimensions.get('window');
 
-type SignupProps = NativeStackScreenProps<rootStackParamList, 'Signup'>;
+type SignupProps = NativeStackScreenProps<rootStackParamList, 'Signup'> & {
+  setIsUserLoggedIn: Dispatch<SetStateAction<boolean>>;
+};
 
-const SignupScreen = ({ navigation }: SignupProps) => {
+const SignupScreen = ({ navigation, setIsUserLoggedIn }: SignupProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -33,6 +35,7 @@ const SignupScreen = ({ navigation }: SignupProps) => {
       createUserWithEmailAndPassword(getAuth(), email, password)
         .then(() => {
           Alert.alert('User account created');
+          setIsUserLoggedIn(true);
         })
         .catch(error => {
           let message = 'Something went wrong';
