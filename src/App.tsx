@@ -4,8 +4,13 @@ import { StyleSheet, Text } from 'react-native';
 import BottomTab from './components/BottomTab';
 import TopTab from './components/TopTab';
 import ProductDetailScreen from './screens/ProductDetailScreen';
+import LoginScreen from './screens/LoginScreen';
+import SignupScreen from './screens/SignupScreen';
+import { useState } from 'react';
 
 export type rootStackParamList = {
+  Login: undefined;
+  Signup: undefined;
   Home: undefined;
   Profile: undefined;
   BottomTabs: undefined;
@@ -17,7 +22,18 @@ export type rootStackParamList = {
 
 const Stack = createNativeStackNavigator<rootStackParamList>();
 
-function App() {
+const AuthStack = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Signup" component={SignupScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const AppStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -27,6 +43,15 @@ function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
+};
+
+function App() {
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  if (isUserLoggedIn) {
+    return <AppStack />;
+  } else {
+    return <AuthStack />;
+  }
 }
 
 const styles = StyleSheet.create({
