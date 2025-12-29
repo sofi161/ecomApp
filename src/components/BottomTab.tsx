@@ -52,7 +52,11 @@ const BottomTab = () => {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Categories" component={CategoriesScreen} />
+      <Tab.Screen
+        name="Categories"
+        component={props => <CategoriesScreen {...props} />}
+        options={{ tabBarLabel: 'Categories' }}
+      />
       <Tab.Screen name="Cart" component={CartScreen} />
     </Tab.Navigator>
   );

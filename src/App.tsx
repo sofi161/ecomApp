@@ -7,11 +7,15 @@ import ProductDetailScreen from './screens/ProductDetailScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import { useState } from 'react';
+import CategoriesScreen from './screens/CategoriesScreen';
 
 export type rootStackParamList = {
   Login: undefined;
   Signup: undefined;
   Home: undefined;
+  Categories: {
+    category?: any | undefined;
+  };
   Profile: undefined;
   BottomTabs: undefined;
   TopTabs: undefined;
@@ -39,18 +43,21 @@ const AuthStack = ({ setIsUserLoggedIn }) => {
   );
 };
 
-const AppStack = () => {
+const AppStack = ({ category }) => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* <Stack.Screen name="TopTabs" component={TopTab} /> */}
       <Stack.Screen name="BottomTabs" component={BottomTab} />
       <Stack.Screen name="ProductDetails" component={ProductDetailScreen} />
+      <Stack.Screen name="Categories">
+        {props => <CategoriesScreen {...props} category={category} />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 };
 
 function App() {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(true);
   return (
     <NavigationContainer>
       {isUserLoggedIn ? (

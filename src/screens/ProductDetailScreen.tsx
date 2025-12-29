@@ -22,6 +22,7 @@ const ProductDetailScreen = ({ route }: ProductDetailProps) => {
   const { products } = route.params;
   const [isFav, setIsFav] = useState(false);
   const [counter, setCounter] = useState(1);
+  if (counter < 1) setCounter(1);
   return (
     <View style={{ flex: 1, padding: 16, gap: 16 }}>
       <Image

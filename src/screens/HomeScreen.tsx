@@ -13,7 +13,7 @@ import BorderedSquare from '../components/BorderedSquare';
 import Fontisto from '@react-native-vector-icons/fontisto';
 import Carousel from '../components/Carousel';
 import ProductBox from '../components/ProductBox';
-import { fetchProductCategories, fetchProducts } from '../services/api';
+import { fetchProductCategoriesLimited, fetchProducts } from '../services/api';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { rootStackParamList } from '../App';
 import TopTab from '../components/TopTab';
@@ -33,10 +33,9 @@ const HomeScreen = ({ navigation }: HomeProps) => {
       setLoading(false);
     };
     const getCategories = async () => {
-      const data = await fetchProductCategories();
+      const data = await fetchProductCategoriesLimited();
       console.log(data);
       setCategories(data);
-      setLoading(false);
     };
     getproducts();
     getCategories();
@@ -56,7 +55,7 @@ const HomeScreen = ({ navigation }: HomeProps) => {
   };
   return (
     <View style={styles.container}>
-      <TopTab />
+      <TopTab screenName="VYBE" />
       <View style={styles.searchContainer}>
         <Fontisto name="search" color="#828282" size={20} />
 
@@ -83,7 +82,14 @@ const HomeScreen = ({ navigation }: HomeProps) => {
           data={categories}
           horizontal
           renderItem={({ item }) => (
-            <Pressable style={styles.categorySubContainer}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('Categories', {
+                  category: { item },
+                })
+              }
+              style={styles.categorySubContainer}
+            >
               <BorderedSquare text={item.name} />
             </Pressable>
           )}

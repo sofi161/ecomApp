@@ -11,10 +11,10 @@ import { Fontisto } from '@react-native-vector-icons/fontisto';
 
 const { width } = Dimensions.get('window');
 
-const TopTab = () => {
+const TopTab = ({ screenName }: { screenName: string }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Ecom</Text>
+      <Text style={styles.heading}>{screenName}</Text>
       <View style={styles.icons}>
         <Pressable style={styles.heartIcon}>
           <Fontisto name="heart" color={'#ff0000ff'} size={30} />
