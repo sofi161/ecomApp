@@ -6,12 +6,21 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Fontisto } from '@react-native-vector-icons/fontisto';
+import { rootStackParamList } from '../App';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
-const TopTab = ({ screenName }: { screenName: string }) => {
+type profileProps = {
+  screenName: string;
+};
+type NavigationProp = NativeStackNavigationProp<rootStackParamList>;
+
+const TopTab = ({ screenName }: profileProps) => {
+  const navigation = useNavigation<NavigationProp>();
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>{screenName}</Text>
@@ -19,7 +28,10 @@ const TopTab = ({ screenName }: { screenName: string }) => {
         <Pressable style={styles.heartIcon}>
           <Fontisto name="heart" color={'#ff0000ff'} size={30} />
         </Pressable>
-        <Pressable style={styles.profileIcon}>
+        <Pressable
+          style={styles.profileIcon}
+          onPress={() => navigation.navigate('Profile')}
+        >
           <Fontisto name="person" size={30} />
         </Pressable>
       </View>

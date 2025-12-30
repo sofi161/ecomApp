@@ -9,6 +9,8 @@ import SignupScreen from './screens/SignupScreen';
 import { useState } from 'react';
 import CategoriesScreen from './screens/CategoriesScreen';
 import SearchDisplay from './screens/SearchDisplay';
+import ProfileScreen from './screens/ProfileScreen';
+import FavouritesScreen from './screens/FavouritesScreen';
 
 export type rootStackParamList = {
   Login: undefined;
@@ -19,6 +21,7 @@ export type rootStackParamList = {
   };
   SearchDisplay: undefined;
   Profile: undefined;
+  Favourites: undefined;
   BottomTabs: undefined;
   TopTabs: undefined;
   ProductDetails: {
@@ -45,7 +48,7 @@ const AuthStack = ({ setIsUserLoggedIn }) => {
   );
 };
 
-const AppStack = ({ category, searchValue }) => {
+const AppStack = ({ category, searchValue, setIsUserLoggedIn }) => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* <Stack.Screen name="TopTabs" component={TopTab} /> */}
@@ -57,16 +60,22 @@ const AppStack = ({ category, searchValue }) => {
       <Stack.Screen name="SearchDisplay">
         {props => <SearchDisplay {...props} searchValue={searchValue} />}
       </Stack.Screen>
+      <Stack.Screen name="Profile">
+        {props => (
+          <ProfileScreen {...props} setIsUserLoggedIn={setIsUserLoggedIn} />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name="Favourites" component={FavouritesScreen} />
     </Stack.Navigator>
   );
 };
 
 function App() {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(true);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
   return (
     <NavigationContainer>
       {isUserLoggedIn ? (
-        <AppStack />
+        <AppStack setIsUserLoggedIn={setIsUserLoggedIn} />
       ) : (
         <AuthStack setIsUserLoggedIn={setIsUserLoggedIn} />
       )}
