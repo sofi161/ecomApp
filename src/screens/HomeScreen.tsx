@@ -24,6 +24,7 @@ const HomeScreen = ({ navigation }: HomeProps) => {
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchInput, setSearchInput] = useState('');
 
   useEffect(() => {
     const getproducts = async () => {
@@ -50,22 +51,21 @@ const HomeScreen = ({ navigation }: HomeProps) => {
     );
   }
 
-  const inputHandler = (e: any) => {
-    console.log(e);
-  };
   return (
     <View style={styles.container}>
       <TopTab screenName="VYBE" />
+      {/* search bar */}
       <View style={styles.searchContainer}>
         <Fontisto name="search" color="#828282" size={20} />
 
         <TextInput
-          onChangeText={inputHandler}
+          onPress={() => navigation.navigate('SearchDisplay')}
           style={styles.searchBar}
           placeholder="Search products ..."
           placeholderTextColor="#676767ff"
         />
       </View>
+
       <Carousel />
       <View style={styles.categoryContainer}>
         <Text
@@ -118,6 +118,7 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     gap: 20,
     padding: 20,
     paddingHorizontal: 20,
@@ -136,6 +137,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderRadius: 12,
     marginHorizontal: 10,
+    width: '100%',
   },
   categoryContainer: {
     flexDirection: 'column',

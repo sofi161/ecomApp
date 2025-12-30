@@ -8,6 +8,7 @@ import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import { useState } from 'react';
 import CategoriesScreen from './screens/CategoriesScreen';
+import SearchDisplay from './screens/SearchDisplay';
 
 export type rootStackParamList = {
   Login: undefined;
@@ -16,6 +17,7 @@ export type rootStackParamList = {
   Categories: {
     category?: any | undefined;
   };
+  SearchDisplay: undefined;
   Profile: undefined;
   BottomTabs: undefined;
   TopTabs: undefined;
@@ -43,7 +45,7 @@ const AuthStack = ({ setIsUserLoggedIn }) => {
   );
 };
 
-const AppStack = ({ category }) => {
+const AppStack = ({ category, searchValue }) => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* <Stack.Screen name="TopTabs" component={TopTab} /> */}
@@ -51,6 +53,9 @@ const AppStack = ({ category }) => {
       <Stack.Screen name="ProductDetails" component={ProductDetailScreen} />
       <Stack.Screen name="Categories">
         {props => <CategoriesScreen {...props} category={category} />}
+      </Stack.Screen>
+      <Stack.Screen name="SearchDisplay">
+        {props => <SearchDisplay {...props} searchValue={searchValue} />}
       </Stack.Screen>
     </Stack.Navigator>
   );
