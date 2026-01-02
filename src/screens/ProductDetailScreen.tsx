@@ -4,12 +4,14 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React, { useState } from 'react';
 import Fontisto from '@react-native-vector-icons/fontisto';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { rootStackParamList } from '../App';
+import { addToCart } from '../services/cart';
 
 const { width } = Dimensions.get('window');
 
@@ -23,6 +25,11 @@ const ProductDetailScreen = ({ route }: ProductDetailProps) => {
   const [isFav, setIsFav] = useState(false);
   const [counter, setCounter] = useState(1);
   if (counter < 1) setCounter(1);
+
+  const handleAddToCart = async () => {
+    const result = await addToCart(products.id);
+    console.log(result);
+  };
   return (
     <View style={{ flex: 1, padding: 16, gap: 16 }}>
       <Image
@@ -86,12 +93,9 @@ const ProductDetailScreen = ({ route }: ProductDetailProps) => {
             alignItems: 'center',
           }}
         >
-          <Text
-            style={{ fontWeight: 'bold' }}
-            onPress={() => setCounter(counter - 1)}
-          >
-            —
-          </Text>
+          <TouchableOpacity onPress={() => setCounter(counter - 1)}>
+            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>—</Text>
+          </TouchableOpacity>
           <Text
             style={{
               backgroundColor: '#c0bfbfff',
@@ -103,17 +107,15 @@ const ProductDetailScreen = ({ route }: ProductDetailProps) => {
           >
             {counter}
           </Text>
-          <Text
-            style={{ fontWeight: 'bold' }}
-            onPress={() => setCounter(counter + 1)}
-          >
-            +
-          </Text>
+          <TouchableOpacity onPress={() => setCounter(counter + 1)}>
+            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>+</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
       {/* Add to cart */}
       <Pressable
+        onPress={handleAddToCart}
         style={{
           backgroundColor: '#222222',
           borderRadius: 20,

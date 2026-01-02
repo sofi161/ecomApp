@@ -71,7 +71,7 @@ const AppStack = ({ category, searchValue, setIsUserLoggedIn }) => {
 };
 
 function App() {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(true);
   return (
     <NavigationContainer>
       {isUserLoggedIn ? (
